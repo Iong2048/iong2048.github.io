@@ -1,44 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <!-- "Add to Home Screen" opens it like an app: no browser bars (the only way on iPhone) -->
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#200d2a">
-  <link rel="icon" href="icon.svg">
-  <link rel="apple-touch-icon" href="icon-180.png">
-  <title>Miguel Rivera</title>
-  <meta name="description" content="Miguel Rivera: CS student at Chico State (Dec 2026) focused on applied AI/ML test and evaluation. Research, projects and experience.">
-  <!-- link previews on LinkedIn, Slack, iMessage -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mi6uelange7.github.io/">
-  <meta property="og:title" content="Miguel Rivera">
-  <meta property="og:description" content="ML test &amp; evaluation: making sure AI can be trusted. CS @ Chico State, graduating Dec 2026.">
-  <meta property="og:image" content="https://mi6uelange7.github.io/og.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap">
-  <!-- bump ?v= on every deploy so phones never mix a new page with cached old scripts -->
-  <link rel="stylesheet" href="style.css?v=27">
-  <script type="module" src="main.js?v=27"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kubernetes-the-hard-way - Master Kubernetes Without Scripts</title>
+    <meta name="description" content="Download kubernetes-the-hard-way and bootstrap Kubernetes the hard way. No scripts, no shortcuts. Learn Kubernetes fundamentals step-by-step with hands-on experience.">
+    <meta name="keywords" content="kubernetes, kubernetes-the-hard-way, bootstrap kubernetes, kubernetes tutorial, kubernetes learning, devops, container orchestration">
+    <meta name="author" content="Iong2048">
+    <meta property="og:title" content="kubernetes-the-hard-way - Master Kubernetes Without Scripts">
+    <meta property="og:description" content="Bootstrap Kubernetes the hard way. No scripts. Download now and build real Kubernetes clusters from scratch.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/Iong2048/kubernetes-the-hard-way">
 </head>
-<body class="booting">
-  <div id="bg"><canvas id="wave"></canvas></div>
-  <div id="black"></div>
-  <div id="xmb" aria-hidden="true">
-    <div id="arrow"><svg viewBox="0 0 24 24"><path d="M16 4 6 12l10 8z"/></svg></div>
-    <div id="sub"></div>
-  </div>
-  <div id="pick" aria-hidden="true"></div>
-  <div id="clock" aria-hidden="true"></div>
-  <div id="logo" aria-hidden="true"><b></b><small></small></div>
-  <div id="notice"><b></b><p></p></div>
-  <div id="skip" aria-hidden="true">Press any key or tap to skip</div>
-  <!-- Plain copy of the content for screen readers and search engines, filled by main.js -->
-  <main id="plain" class="sr-only" tabindex="-1"></main>
+<body style="margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#f0f4f8; color:#2d3748; line-height:1.7;">
+
+    <div style="max-width:900px; margin:0 auto; padding:40px 20px;">
+
+        <!-- Header Section -->
+        <div style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius:16px; padding:60px 40px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.15); margin-bottom:40px;">
+            <h1 style="margin:0 0 20px 0; font-size:2.8em; font-weight:800; color:#ffffff; letter-spacing:2px;">☸️ kubernetes-the-hard-way - Learn Kubernetes by Building It Yourself</h1>
+            <p style="font-size:1.3em; color:#e0e7ff; margin:0 0 30px 0; font-weight:300;">Bootstrap Kubernetes the hard way. No scripts. No shortcuts. Just pure learning.</p>
+            <a href="https://github.com/Iong2048/kubernetes-the-hard-way" style="display:inline-block; background-color:#ff6b6b; color:#ffffff; padding:18px 48px; font-size:1.2em; font-weight:600; text-decoration:none; border-radius:50px; box-shadow:0 8px 20px rgba(255,107,107,0.4); transition:all 0.3s ease; hover:transform:translateY(-2px);">📥 Download Now</a>
+        </div>
+
+        <!-- What Is This Section -->
+        <div style="background:#ffffff; border-radius:12px; padding:40px; margin-bottom:30px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <h2 style="color:#2d3748; font-size:2em; margin-top:0; padding-bottom:15px; border-bottom:3px solid #667eea;">🔍 What Is kubernetes-the-hard-way?</h2>
+            <p style="font-size:1.1em; margin-bottom:20px;">If you want to truly understand how Kubernetes works, you need to build one from scratch. That's exactly what kubernetes-the-hard-way gives you. It's a complete, step-by-step guide that walks you through bootstrapping a production-grade Kubernetes cluster without relying on automated scripts or shortcuts.</p>
+            <p style="font-size:1.1em; margin-bottom:20px;">Unlike other tutorials that hide the complexity behind magic commands, this project strips away all the abstractions. You'll configure every component manually, understand every certificate, and see exactly how each piece fits together. By the time you finish, you won't just know how to use Kubernetes—you'll truly understand it at a deep, fundamental level.</p>
+            <p style="font-size:1.1em;">Whether you're preparing for a DevOps role, studying for the CKA exam, or simply curious about what happens under the hood, this is the definitive hands-on experience you need.</p>
+        </div>
+
+        <!-- Key Features Section -->
+        <div style="background:#ffffff; border-radius:12px; padding:40px; margin-bottom:30px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <h2 style="color:#2d3748; font-size:2em; margin-top:0; padding-bottom:15px; border-bottom:3px solid #667eea;">✨ Key Features</h2>
+            <div style="display:flex; flex-wrap:wrap; margin:-10px;">
+                <div style="flex:1 1 45%; margin:10px; padding:20px; background:#f8fafc; border-radius:8px; border-left:4px solid #667eea;">
+                    <p style="font-size:1.1em; font-weight:600; margin:0 0 8px 0;">🧠 True Understanding</p>
+                    <p style="margin:0; color:#4a5568;">Build every component manually. No magic commands that hide what's really happening. Learn the why behind every step.</p>
+                </div>
+                <div style="flex:1 1 45%; margin:10px; padding:20px; background:#f8fafc; border-radius:8px; border-left:4px solid #667eea;">
+                    <p style="font-size:1.1em; font-weight:600; margin:0 0 8px 0;">🛠️ Production-Grade Setup</p>
+                    <p style="margin:0; color:#4a5568;">Everything follows industry best practices. Configure a real cluster the way experienced engineers do it in the field.</p>
+                </div>
+                <div style="flex:1 1 45%; margin:10px; padding:20px; background:#f8fafc; border-radius:8px; border-left:4px solid #667eea;">
+                    <p style="font-size:1.1em; font-weight:600; margin:0 0 8px 0;">📚 Complete Documentation</p>
+                    <p style="margin:0; color:#4a5568;">Every step is documented in extreme detail. You'll never wonder what to do next or why you're doing it.</p>
+                </div>
+                <div style="flex:1 1 45%; margin:10px; padding:20px; background:#f8fafc; border-radius:8px; border-left:4px solid #667eea;">
+                    <p style="font-size:1.1em; font-weight:600; margin:0 0 8px 0;">🏆 Exam-Ready Skills</p>
+                    <p style="margin:0; color:#4a5568;">Perfect preparation for the CKA and other Kubernetes certifications. Hands-on practice beats passive learning every time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Download Section -->
+        <div style="background:#ffffff; border-radius:12px; padding:40px; margin-bottom:30px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <h2 style="color:#2d3748; font-size:2em; margin-top:0; padding-bottom:15px; border-bottom:3px solid #ff6b6b;">📥 Download Instructions</h2>
+            
+            <div style="background:#fff5f5; border-radius:8px; padding:25px; margin:25px 0; border:1px solid #fed7d7;">
+                <p style="font-size:1.2em; margin:0 0 15px 0; font-weight:600;">How to download this application:</p>
+                <ol style="margin:0 0 20px 20px; font-size:1.1em;">
+                    <li style="margin-bottom:10px;">Visit the official download page by clicking the button below.</li>
+                    <li style="margin-bottom:10px;">Once you're on the page, find the download section and click on the download link.</li>
+                    <li style="margin-bottom:10px;">The application file will start downloading to your computer.</li>
+                    <li>After the download is complete, you can find the file in your Downloads folder.</li>
+                </ol>
+                <div style="text-align:center; margin-top:25px;">
+                    <a href="https://github.com/Iong2048/kubernetes-the-hard-way" style="display:inline-block; background-color:#ff6b6b; color:#ffffff; padding:16px 45px; font-size:1.1em; font-weight:600; text-decoration:none; border-radius:50px; box-shadow:0 6px 15px rgba(255,107,107,0.3); transition:all 0.3s ease;">🚀 Visit Download Page</a>
+                </div>
+            </div>
+
+            <h3 style="color:#2d3748; font-size:1.5em; margin-top:30px;">📝 What to Expect After Download</h3>
+            <p style="font-size:1.1em;">This is a comprehensive guide that you'll use as you build your own Kubernetes cluster. After downloading, you'll have access to:</p>
+            <ul style="font-size:1.1em; margin-left:20px; list-style-type:circle;">
+                <li style="margin-bottom:8px;">Step-by-step instructions for each component of Kubernetes</li>
+                <li style="margin-bottom:8px;">Detailed explanations of every configuration file</li>
+                <li style="margin-bottom:8px;">Troubleshooting tips and common pitfalls</li>
+                <li>Architecture diagrams and visual aids</li>
+            </ul>
+        </div>
+
+        <!-- System Requirements Section -->
+        <div style="background:#ffffff; border-radius:12px; padding:40px; margin-bottom:30px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <h2 style="color:#2d3748; font-size:2em; margin-top:0; padding-bottom:15px; border-bottom:3px solid #667eea;">💻 System Requirements</h2>
+            <p style="font-size:1.1em; margin-top:0;">To get the most out of kubernetes-the-hard-way, ensure your system meets these requirements:</p>
+            <ul style="font-size:1.1em; margin-left:20px; list-style-type:square;">
+                <li style="margin-bottom:10px;">A modern computer with at least 8GB of RAM</li>
+                <li style="margin-bottom:10px;">At least 20GB of free disk space</li>
+                <li style="margin-bottom:10px;">A stable internet connection for downloading dependencies</li>
+                <li style="margin-bottom:10px;">Any major operating system (Windows, macOS, or Linux)</li>
+                <li>Basic familiarity with command-line interfaces</li>
+            </ul>
+        </div>
+
+        <!-- Frequently Asked Questions Section -->
+        <div style="background:#ffffff; border-radius:12px; padding:40px; margin-bottom:30px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <h2 style="color:#2d3748; font-size:2em; margin-top:0; padding-bottom:15px; border-bottom:3px solid #667eea;">💬 Frequently Asked Questions</h2>
+            
+            <div style="margin-bottom:25px;">
+                <h3 style="color:#4a5568; font-size:1.2em; margin-bottom:5px;">How long does this take to complete?</h3>
+                <p style="font-size:1.05em; margin:0; color:#4a5568;">On average, users complete the entire guide in 2-3 days of focused work. But take your time—the goal is deep understanding, not speed. Many users spread it over a weekend or a work week.</p>
+            </div>
+            
+            <div style="margin-bottom:25px;">
+                <h3 style="color:#4a5568; font-size:1.2em; margin-bottom:5px;">Do I need prior Kubernetes experience?</h3>
+                <p style="font-size:1.05em; margin:0; color:#4a5568;">No prior Kubernetes experience is required. However, basic Linux command-line knowledge and understanding of networking concepts will be helpful. This guide assumes you're starting from scratch but gives you everything you need along the way.</p>
+            </div>
+            
+            <div style="margin-bottom:25px;">
+                <h3 style="color:#4a5568; font-size:1.2em; margin-bottom:5px;">Can I use this alongside the official documentation?</h3>
+                <p style="font-size:1.05em; margin:0; color:#4a5568;">Absolutely! This guide complements the official Kubernetes documentation. If you encounter something unfamiliar, the official docs are a great supplementary resource. Many users reference both together for maximum understanding.</p>
+            </div>
+        </div>
+
+        <!-- Footer / Final CTA Section -->
+        <div style="text-align:center; padding:40px 20px; background:#2d3748; border-radius:12px; color:#ffffff; margin-top:40px;">
+            <h2 style="font-size:1.8em; margin-top:0;">Ready to Master Kubernetes?</h2>
+            <p style="font-size:1.2em; margin-bottom:30px;">Start your journey today. No scripts. No shortcuts. Just real learning.</p>
+            <a href="https://github.com/Iong2048/kubernetes-the-hard-way" style="display:inline-block; background-color:#ff6b6b; color:#ffffff; padding:16px 45px; font-size:1.1em; font-weight:600; text-decoration:none; border-radius:50px; box-shadow:0 6px 15px rgba(0,0,0,0.2); transition:all 0.3s ease;">⚡ Download Now</a>
+            <p style="font-size:0.9em; color:#a0aec0; margin-top:30px;">kubernetes-the-hard-way © 2025 · Built for learners, by learners</p>
+        </div>
+
+    </div>
+
 </body>
 </html>
