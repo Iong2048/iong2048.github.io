@@ -8,7 +8,7 @@ export const site = {
     ['Focus', 'ML test & evaluation: checking whether models actually do what they claim.'],
     ['Research', "Verification tooling for Cornell's Elephant Listening Project. Grad-CAM attention alone reaches AUC 0.892 on 6,192 held-out clips, and I caught a silent weight-load failure that had left the network untrained."],
     ['Evaluation', 'LLM output evaluation for Handshake AI; found and guarded against silent tool-call failures where an LLM agent reported actions it never ran.'],
-    ['Building', 'An audio drone-detection CNN, designed and trained from scratch for my senior capstone (in progress).'],
+    ['Capstone', 'Acoustic drone detector with leak-safe evaluation. Tested cold on an out-of-domain dataset, traced a recall collapse to calibration across 8 seeds, and fixed it without retraining: 89% mean recall, 5× more stable.'],
     ['Looking for', 'Internship or new-grad roles in ML test & evaluation, verification, or ML tooling in 2027. B.S. CS, Dec 2026.'],
   ],
   links: [['LinkedIn', 'https://linkedin.com/in/mariveracuevas'], ['GitHub', 'https://github.com/mi6uelange7'], ['Email', 'mailto:mariveracuevas@csuchico.edu']],
@@ -61,14 +61,23 @@ export const categories = [
   },
   {
     title: 'Projects', icon: 'code', items: [
-      { title: 'Drone Detection CNN', sub: 'Senior Capstone, solo · In progress', icon: 'wave', rows: [
-        { title: 'Type', value: 'Senior Capstone, solo' },
+      { title: 'Acoustic Drone Detection', sub: 'CSCI490 capstone, solo · In progress', icon: 'wave', rows: [
+        { title: 'Overview', value: '11,704 clips',
+          desc: 'Binary drone classifier built from scratch: spectrograms in, drone-or-not out. The focus is the evaluation methodology, not just the model.' },
         { title: 'Dates', value: 'Fall 2026 – Present' },
         { title: 'Status', value: 'In progress' },
-        { title: 'Overview', desc: "Audio-based drone detector: recordings converted to spectrograms with Librosa, fed to a CNN I'm designing and training from scratch." },
-        { title: 'Pipeline', desc: 'Building the data preprocessing pipeline first.' },
-        { title: 'Approach', desc: 'Same audio-to-spectrogram-to-CNN approach as the elephant work, this time building the model myself.' },
-        stack('Python', 'Librosa', 'CNN', 'Spectrograms'),
+        { title: 'Leak-safe Splitting', value: '4/4 tests passing',
+          desc: 'Group-aware train/test split so one recording never lands on both sides, backed by an automated pytest suite and a deliberately broken naive split kept as a control.' },
+        { title: 'Data Audit', value: '9.3% silent · 2 mislabeled',
+          desc: 'Found silent clips and 2 drone-labeled clips with no drone in them, missed by the original labels.' },
+        { title: 'Baseline → CNN', value: '0.951 → 0.989 PR-AUC',
+          desc: 'MFCC + logistic regression baseline, then a 3-block CNN on raw spectrograms. Biggest gain on the hardest clips (drone + noise): 60% → 83% correct.' },
+        { title: 'Out-of-domain Test', value: '1.000 PR-AUC · 27% recall',
+          desc: "Tested cold on an independent dataset with a different mic, room, and drones. The model still ranked drones correctly almost every time, but its confidence scale didn't transfer to the new room." },
+        { title: 'Calibration Fix', value: '89% mean recall · 5× more stable',
+          desc: 'Swept 8 random seeds (recall varied 7–65% across identical runs) to show the gap was calibration, not the model, then fixed it by recalibrating on a small held-out slice, with no retraining.' },
+        stack('Python', 'PyTorch', 'librosa', 'scikit-learn'),
+        { title: 'Source', value: 'GitHub', href: 'https://github.com/mi6uelange7/DroneAcousticDetection' },
       ] },
       { title: 'LLM Agent Reliability', sub: 'Honest tool calling · In progress', icon: 'chat', rows: [
         { title: 'Dates', value: 'Mar 2026 – Present' },

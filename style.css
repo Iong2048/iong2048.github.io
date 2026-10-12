@@ -149,7 +149,8 @@ body {
 .tall #pick { left: 58vw; }
 .tall .opt { font-size: 4.4vw; height: 7vw; margin-top: -3.5vw; left: 4vw; gap: 3vw; }
 .tall .opt i { width: 5.5vw; height: 5.5vw; }
-.picking #clock { opacity: 0; }
+/* inside a list the rows above would run under the clock box */
+.deep #clock { opacity: 0; }
 .tall.picking .row small { opacity: 0; }
 
 #skip {
