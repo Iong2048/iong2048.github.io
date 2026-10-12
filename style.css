@@ -1,0 +1,125 @@
+:root { --c1: #a98ad3; --c2: #4e3480; --night: 0; --s: 1; }
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+body {
+  font-family: 'Noto Sans', system-ui, sans-serif; font-weight: 300; color: #fff;
+  background: var(--c2); touch-action: none; user-select: none;
+}
+
+#bg {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 78% 0%, rgb(255 255 255 / .1), transparent 70%),
+    linear-gradient(165deg, var(--c1), var(--c2));
+  transition: background .6s;
+}
+#bg::after { content: ''; position: fixed; inset: 0; background: #000; opacity: var(--night); }
+#wave { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.cat, .item {
+  position: absolute; left: 0; top: 0; cursor: pointer;
+  margin: calc(var(--i) / -2) 0 0 calc(var(--i) / -2);
+  transform-origin: calc(var(--i) / 2) 50%;
+  transition: transform .28s cubic-bezier(.2, .7, .3, 1), opacity .28s;
+}
+.cat { --i: calc(115px * var(--s)); }
+.item { --i: calc(100px * var(--s)); display: flex; align-items: center; gap: calc(50px * var(--s)); }
+/* like the console, only the selected item shows its label */
+.item > div { opacity: 0; transition: opacity .28s; }
+.item.on > div { opacity: 1; }
+.cat svg, .item svg {
+  display: block; flex: none; width: var(--i); height: var(--i); fill: rgb(255 255 255 / .92);
+  filter: drop-shadow(0 0 calc(5px * var(--s)) rgb(255 255 255 / .45)) drop-shadow(0 1px 2px rgb(0 0 0 / .25));
+}
+.cat span {
+  position: absolute; top: 108%; left: 50%; transform: translateX(-50%);
+  font-size: calc(22px * var(--s)); white-space: nowrap; opacity: 0; transition: opacity .28s;
+  text-shadow: 0 0 6px rgb(255 255 255 / .5);
+}
+.cat.on span { opacity: 1; }
+.item b {
+  display: block; font-weight: 400; font-size: calc(34px * var(--s)); white-space: nowrap;
+  text-shadow: 0 0 8px rgb(255 255 255 / .35), 0 1px 2px rgb(0 0 0 / .3);
+}
+.item small { display: block; font-size: calc(19px * var(--s)); opacity: 0; transition: opacity .28s; white-space: nowrap; }
+.item.on small { opacity: .85; }
+.item.on b { text-shadow: 0 0 10px rgb(255 255 255 / .8), 0 1px 2px rgb(0 0 0 / .3); }
+
+#clock {
+  /* flush with the right edge, like the PS3 status bar */
+  position: fixed; top: 7vh; right: 0; width: 31vw; padding-right: 6.5vw;
+  font-size: calc(30px * var(--s)); line-height: calc(56px * var(--s)); text-align: right; letter-spacing: .03em;
+  border: 1px solid rgb(255 255 255 / .55); border-right: 0; border-radius: 3px 0 0 3px;
+  background: linear-gradient(rgb(255 255 255 / .18), rgb(255 255 255 / .04));
+}
+
+#panel {
+  position: fixed; top: 0; right: 0; height: 100%; width: min(560px, 100%);
+  padding: 56px 40px; overflow-y: auto; touch-action: pan-y; user-select: text;
+  background: rgb(10 5 25 / .5); backdrop-filter: blur(18px);
+  transform: translateX(100%); transition: transform .3s ease; line-height: 1.65;
+}
+#panel.open { transform: none; }
+#panel h2 { font-weight: 400; font-size: 28px; }
+#panel h3 { font-weight: 300; font-size: 16px; opacity: .8; margin-bottom: 20px; }
+#panel p, #panel ul { margin-bottom: 14px; }
+#panel a { color: #fff; }
+#close {
+  position: absolute; top: 16px; right: 16px; width: 40px; height: 40px;
+  background: none; border: 0; color: #fff; font-size: 20px; cursor: pointer;
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+/* PSP-style status on phones: plain text + battery, no box */
+.psp #clock { border: 0; background: none; width: auto; padding: 0; line-height: normal; font-size: 16px; top: max(12px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); }
+.psp #clock::after {
+  content: ''; display: inline-block; width: 22px; height: 11px; margin-left: 10px; vertical-align: -1px;
+  border: 1.5px solid #fff; border-radius: 2px; padding: 1.5px;
+  background: repeating-linear-gradient(90deg, #fff 0 4.5px, transparent 4.5px 6px) content-box;
+}
+.psp .item small { display: none; }
+.psp .item b, .psp .cat span, .psp #clock { text-shadow: 0 0 2px rgb(0 0 0 / .7), 0 1px 3px rgb(0 0 0 / .6); }
+.psp #bg { background: radial-gradient(ellipse 120% 80% at 50% 20%, transparent 40%, rgb(0 0 0 / .25)), linear-gradient(170deg, var(--c1), var(--c2)); filter: saturate(.75); }
+
+/* ---- boot ---- */
+#black { position: fixed; inset: 0; background: #000; transition: opacity 2.2s ease; pointer-events: none; }
+#black.gone { opacity: 0; }
+#xmb, #clock { transition: opacity 1.2s ease; }
+.booting #xmb, .booting #clock { opacity: 0; pointer-events: none; }
+#logo, #notice { position: fixed; opacity: 0; transition: opacity 1s ease; pointer-events: none; }
+#logo.show, #notice.show { opacity: 1; }
+/* name sits on the wave in the right third, like the PS3 logo */
+#logo { right: 6vw; top: 50%; transform: translateY(-50%); text-align: center; }
+#logo b {
+  display: block; font-weight: 300; font-size: clamp(26px, 3.4vw, 72px); letter-spacing: .06em;
+  text-shadow: 0 0 18px rgb(255 255 255 / .35);
+}
+#logo small { display: block; font-size: clamp(12px, 1.1vw, 22px); opacity: .85; margin-top: .3em; }
+#notice {
+  left: 16%; right: 16%; top: 47%; text-transform: uppercase; font-weight: 400;
+  font-size: clamp(13px, 1.45vw, 26px); line-height: 1.5; text-shadow: 0 1px 3px rgb(0 0 0 / .5);
+}
+#notice b { font-weight: 400; display: block; }
+.psp #logo { right: 0; left: 0; }
+.psp #logo b { font-size: 8vw; }
+.psp #notice { left: 8%; right: 8%; top: 40%; }
+
+/* ---- upright phones: one clean column, all items labeled, glow marks the selection ---- */
+.tall .item > div { width: calc(67vw - 100px * var(--s) - 16px); }
+.tall .item > div { opacity: .85; }
+.tall .item.up > div { opacity: 0; }
+.tall .item.on > div { opacity: 1; }
+.tall .item b { font-size: 5.4vw; white-space: normal; }
+.tall .item small { display: none; font-size: 3.4vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tall .item.on small { display: block; }
+.tall .cat span { font-size: 3.6vw; }
+.tall .item.on svg, .tall .cat.on svg {
+  filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px rgb(170 200 255 / .9)) drop-shadow(0 2px 3px rgb(0 0 0 / .4));
+}
+.tall #logo, .tall #notice { top: 42%; }
+.tall #panel {
+  top: auto; bottom: 0; width: 100%; height: 80%; padding: 40px 24px calc(24px + env(safe-area-inset-bottom));
+  border-radius: 16px 16px 0 0; transform: translateY(100%);
+}
+.tall #panel.open { transform: none; }
