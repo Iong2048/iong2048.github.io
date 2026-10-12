@@ -57,7 +57,12 @@ function sound(mode) {
   audio.ctx.resume(); // must happen inside the user's tap or key press, or phones keep it muted
   audio.ready.then(() => {
     if (MODES[mode]) audio.node.port.postMessage(MODES[mode]);
-    audio.gain.gain.setTargetAtTime(MODES[mode] ? 0.35 : 0, audio.ctx.currentTime, MODES[mode] ? 1.2 : 0.3); // fade in slow, out quick
+    const g = audio.gain.gain, t = audio.ctx.currentTime;
+    g.cancelScheduledValues(t); g.setValueAtTime(g.value, t); // continue from wherever the volume is now
+    if (!MODES[mode]) return g.linearRampToValueAtTime(0, t + 0.4);
+    // starting from silence: hold it past the audio device's start-up click, then fade in slowly
+    const from = g.value < 0.01 ? t + 0.3 : t;
+    g.setValueAtTime(g.value, from); g.linearRampToValueAtTime(0.35, from + 2.5);
   }).catch(() => {});
 }
 // browsers only allow sound after a gesture, so a saved choice starts on the first one
