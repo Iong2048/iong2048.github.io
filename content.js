@@ -61,7 +61,7 @@ export const categories = [
   },
   {
     title: 'Projects', icon: 'code', items: [
-      { title: 'Acoustic Drone Detection', sub: 'CSCI490 capstone, solo · In progress', icon: 'wave', rows: [
+      { title: 'Acoustic Drone Detection', sub: 'CSCI490 capstone, solo · In progress', icon: 'mic', rows: [
         { title: 'Overview', value: '11,704 clips',
           desc: 'Binary drone classifier built from scratch: spectrograms in, drone-or-not out. The focus is the evaluation methodology, not just the model.' },
         { title: 'Dates', value: 'Fall 2026 – Present' },
@@ -93,6 +93,15 @@ export const categories = [
         { title: 'Status', value: 'Done' },
         { title: 'Overview', desc: 'First end-to-end model: an LSTM for market time series prediction.' },
         stack('Python', 'TensorFlow', 'Keras', 'LSTM'),
+      ] },
+      { title: 'drift', sub: 'Procedural ocean engine · C++ DSP', icon: 'wave', rows: [
+        { title: 'Overview', desc: 'A macOS menu bar app that synthesizes ocean sound in real time with a custom C++17 DSP engine. No samples, no loops: every wave, crash, and swell is computed from scratch.' },
+        { title: 'Hear It', sound: 'Waves', desc: "The same engine, ported to the browser, playing on this site. Turn it on or off any time in Settings → Theme Settings → Sound." },
+        { title: 'Signal Chain', desc: 'Brown noise → 9 kHz lowpass → pool of 8 bandpass wave bursts → 3-layer crashes (rumble, body, foam) → mid-side width → tanh saturation → 64-sample lookahead limiter.' },
+        { title: 'Real-time Safe', desc: 'Zero heap allocation in the render loop; lock-free atomics for every parameter.' },
+        { title: 'Native App', value: 'Swift · AVAudioEngine', desc: 'Popover UI with live parameter readouts, built with a single build.sh: clang++ and swiftc directly, no Xcode project.' },
+        stack('C++17', 'Swift', 'AVAudioEngine', 'DSP'),
+        { title: 'Source', value: 'GitHub', href: 'https://github.com/mi6uelange7/drift' },
       ] },
       { title: 'LAN Network Audit Monitor', sub: 'Concurrent subnet scanner · Done', icon: 'lan', rows: [
         { title: 'Dates', value: 'Mar 2026' },

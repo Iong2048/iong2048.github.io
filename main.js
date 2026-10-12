@@ -40,14 +40,41 @@ function applyTheme(name) {
 }
 applyTheme(store('theme') || 'Purple');
 
+// ---- sound: drift's ocean engine running in an AudioWorklet (drift.js) ----
+const MODES = { Calm: { waves: 0.35, crashes: false }, Waves: { waves: 0.6, crashes: true, rate: 0.4 } };
+let audio = null;
+function sound(mode) {
+  if (!MODES[mode] && !audio) return;
+  if (!audio) {
+    const ctx = new AudioContext();
+    audio = { ctx };
+    audio.ready = ctx.audioWorklet.addModule(`drift.js${new URL(import.meta.url).search}`).then(() => {
+      audio.node = new AudioWorkletNode(ctx, 'drift-ocean', { outputChannelCount: [2] });
+      audio.gain = ctx.createGain(); audio.gain.gain.value = 0;
+      audio.node.connect(audio.gain).connect(ctx.destination);
+    });
+  }
+  audio.ctx.resume(); // must happen inside the user's tap or key press, or phones keep it muted
+  audio.ready.then(() => {
+    if (MODES[mode]) audio.node.port.postMessage(MODES[mode]);
+    audio.gain.gain.setTargetAtTime(MODES[mode] ? 0.35 : 0, audio.ctx.currentTime, MODES[mode] ? 1.2 : 0.3); // fade in slow, out quick
+  }).catch(() => {});
+}
+// browsers only allow sound after a gesture, so a saved choice starts on the first one
+if (MODES[store('sound')]) for (const ev of ['pointerdown', 'keydown']) addEventListener(ev, () => sound(store('sound')), { once: true });
+
 // Settings rows are options lists: Enter opens the picker strip, moving previews, Enter keeps.
 const SETTINGS = [
   { title: 'Colour', desc: 'Sets the colour of the background.', key: 'theme', def: 'Purple',
     options: ['Auto', ...Object.keys(themes)], apply: applyTheme },
   { title: 'Intro', desc: 'Plays the startup sequence when the site opens.', key: 'intro', def: 'On', options: ['On', 'Off'] },
   { title: 'Clock', desc: 'Sets how the time is shown.', key: 'clock', def: '24-Hour', options: ['24-Hour', '12-Hour'], apply: (o) => tick(o) },
+  { title: 'Sound', desc: 'Procedural ocean from drift, my DSP engine. No audio files: every wave is computed live.', key: 'sound', def: 'Off', options: ['Off', 'Calm', 'Waves'], apply: (o) => sound(o) },
 ];
-const val = (r) => (r.key ? store(r.key) || r.def : r.value || '');
+
+
+const playing = () => !!MODES[store('sound')];
+const val = (r) => (r.sound ? (playing() ? 'Playing · Enter to stop' : 'Press Enter') : r.key ? store(r.key) || r.def : r.value || '');
 const swatch = (o) => (themes[o] ? themes[o][0] : 'conic-gradient(#dcc46e, #6cc064, #62c6c3, #7fb4e8, #a98ad3, #dc6e6e, #dcc46e)');
 
 const cats = [{
@@ -191,6 +218,7 @@ function activate() {
   if (booting() || state.glance) return;
   if (state.level === 0) return enter();
   const r = rows()[state.row];
+  if (state.level === 1 && r.sound) { const m = playing() ? 'Off' : r.sound; store('sound', m); sound(m); return render(); }
   if (state.level === 1) return r.options ? openPicker(r) : r.href && go(r.href);
   store(r.key, r.options[state.opt]); r.apply?.(r.options[state.opt]); // keep the previewed choice
   state.level = 1; render();
