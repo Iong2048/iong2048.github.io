@@ -14,20 +14,21 @@
   <title>Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap">
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="main.js"></script>
+  <!-- bump ?v= on every deploy so phones never mix a new page with cached old scripts -->
+  <link rel="stylesheet" href="style.css?v=6">
+  <script type="module" src="main.js?v=6"></script>
 </head>
 <body class="booting">
   <div id="bg"><canvas id="wave"></canvas></div>
   <div id="black"></div>
-  <div id="xmb" aria-hidden="true"></div>
+  <div id="xmb" aria-hidden="true">
+    <div id="arrow"><svg viewBox="0 0 24 24"><path d="M16 4 6 12l10 8z"/></svg></div>
+    <div id="sub"></div>
+  </div>
+  <div id="pick" aria-hidden="true"></div>
   <div id="clock" aria-hidden="true"></div>
   <div id="logo" aria-hidden="true"><b></b><small></small></div>
   <div id="notice"><b></b><p></p></div>
-  <aside id="panel" aria-live="polite">
-    <button id="close" aria-label="Close">✕</button>
-    <div id="panel-body"></div>
-  </aside>
   <!-- Plain copy of the content for screen readers and search engines, filled by main.js -->
   <main id="plain" class="sr-only"></main>
 </body>

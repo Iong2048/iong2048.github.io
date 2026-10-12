@@ -53,31 +53,10 @@ body {
   background: linear-gradient(rgb(255 255 255 / .18), rgb(255 255 255 / .04));
 }
 
-#panel {
-  position: fixed; top: 0; right: 0; height: 100%; width: min(560px, 100%);
-  padding: 56px 40px; overflow-y: auto; touch-action: pan-y; user-select: text;
-  background: rgb(10 5 25 / .5); backdrop-filter: blur(18px);
-  transform: translateX(100%); transition: transform .3s ease; line-height: 1.65;
-}
-#panel.open { transform: none; }
-#panel h2 { font-weight: 400; font-size: 28px; }
-#panel h3 { font-weight: 300; font-size: 16px; opacity: .8; margin-bottom: 20px; }
-#panel p, #panel ul { margin-bottom: 14px; }
-#panel a { color: #fff; }
-#close {
-  position: absolute; top: 16px; right: 16px; width: 40px; height: 40px;
-  background: none; border: 0; color: #fff; font-size: 20px; cursor: pointer;
-}
-
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
-/* PSP-style status on phones: plain text + battery, no box */
+/* PSP-style status on phones: plain text, no box (the phone shows its own battery) */
 .psp #clock { border: 0; background: none; width: auto; padding: 0; line-height: normal; font-size: 16px; top: max(12px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); }
-.psp #clock::after {
-  content: ''; display: inline-block; width: 22px; height: 11px; margin-left: 10px; vertical-align: -1px;
-  border: 1.5px solid #fff; border-radius: 2px; padding: 1.5px;
-  background: repeating-linear-gradient(90deg, #fff 0 4.5px, transparent 4.5px 6px) content-box;
-}
 .psp .item small { display: none; }
 .psp .item b, .psp .cat span, .psp #clock { text-shadow: 0 0 2px rgb(0 0 0 / .7), 0 1px 3px rgb(0 0 0 / .6); }
 .psp #bg { background: radial-gradient(ellipse 120% 80% at 50% 20%, transparent 40%, rgb(0 0 0 / .25)), linear-gradient(170deg, var(--c1), var(--c2)); filter: saturate(.75); }
@@ -86,7 +65,7 @@ body {
 #black { position: fixed; inset: 0; background: #000; transition: opacity 2.2s ease; pointer-events: none; }
 #black.gone { opacity: 0; }
 #xmb, #clock { transition: opacity 1.2s ease; }
-.booting #xmb, .booting #clock { opacity: 0; pointer-events: none; }
+.booting #xmb, .booting #clock, .booting #pick { opacity: 0; pointer-events: none; }
 #logo, #notice { position: fixed; opacity: 0; transition: opacity 1s ease; pointer-events: none; }
 #logo.show, #notice.show { opacity: 1; }
 /* name sits on the wave in the right third, like the PS3 logo */
@@ -118,8 +97,62 @@ body {
   filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px rgb(170 200 255 / .9)) drop-shadow(0 2px 3px rgb(0 0 0 / .4));
 }
 .tall #logo, .tall #notice { top: 42%; }
-.tall #panel {
-  top: auto; bottom: 0; width: 100%; height: 80%; padding: 40px 24px calc(24px + env(safe-area-inset-bottom));
-  border-radius: 16px 16px 0 0; transform: translateY(100%);
+
+/* ---- options list (PS3 Theme Settings style) ---- */
+.deep .item > div, .deep .cat span { opacity: 0 !important; }
+#arrow, .row { position: absolute; left: 0; top: 0; transition: transform .28s cubic-bezier(.2, .7, .3, 1), opacity .28s; }
+#arrow { --a: calc(26px * var(--s)); width: var(--a); height: var(--a); margin: calc(var(--a) / -2) 0 0 calc(var(--a) / -2); cursor: pointer; }
+#arrow svg { width: 100%; height: 100%; fill: #fff; filter: drop-shadow(0 0 4px rgb(255 255 255 / .6)); }
+#sub { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s; }
+.deep #sub { opacity: 1; pointer-events: auto; }
+.row { --d: calc(24px * var(--s)); display: flex; align-items: flex-start; cursor: pointer; margin-top: calc(var(--d) / -2); }
+.row > i {
+  flex: none; width: var(--d); height: var(--d); border-radius: 50%; margin-top: calc(6px * var(--s));
+  background: radial-gradient(circle, transparent 0 28%, rgb(255 255 255 / .9) 30%);
+  filter: drop-shadow(0 0 3px rgb(255 255 255 / .5));
 }
-.tall #panel.open { transform: none; }
+.row > div { margin-left: calc(var(--lx) - var(--d)); transition: opacity .25s; }
+.row b {
+  display: block; font-weight: 300; font-size: calc(32px * var(--s)); white-space: nowrap; opacity: .78;
+  text-shadow: 0 1px 2px rgb(0 0 0 / .3); transition: opacity .2s;
+}
+.row.on b { font-weight: 400; font-size: calc(36px * var(--s)); opacity: 1; text-shadow: 0 0 10px rgb(255 255 255 / .8), 0 1px 2px rgb(0 0 0 / .3); }
+.row small { display: none; max-width: var(--dw); font-size: calc(19px * var(--s)); line-height: 1.35; opacity: .9; }
+.row.on small { display: block; }
+.row .val {
+  position: absolute; left: var(--vx); top: calc(10px * var(--s)); font-style: normal; white-space: nowrap;
+  font-size: calc(22px * var(--s)); opacity: .55;
+}
+.row.on .val { opacity: 1; font-weight: 400; }
+/* picker open: only the active row keeps its label */
+.picking .row:not(.on) > div, .picking .row .val { opacity: 0; }
+
+/* ---- picker strip on the right ---- */
+#pick {
+  position: fixed; top: 0; bottom: 0; left: 69vw; right: 0; overflow: hidden;
+  background: linear-gradient(90deg, rgb(255 255 255 / .2), rgb(255 255 255 / .08));
+  border-left: 1px solid rgb(255 255 255 / .4);
+  transform: translateX(100%); transition: transform .3s cubic-bezier(.2, .7, .3, 1);
+}
+#pick.open { transform: none; }
+.opt {
+  position: absolute; left: 2.2vw; top: 0; display: flex; align-items: center; gap: 1vw; cursor: pointer;
+  height: calc(30px * var(--s)); margin-top: calc(-15px * var(--s)); font-size: calc(24px * var(--s)); white-space: nowrap;
+  transition: transform .22s cubic-bezier(.2, .7, .3, 1);
+}
+.opt i { flex: none; width: calc(24px * var(--s)); height: calc(24px * var(--s)); border: 2px solid rgb(255 255 255 / .85); border-radius: 2px; filter: brightness(1.6) saturate(1.2); }
+.opt span { opacity: .7; }
+.opt.sw span { opacity: 0; }
+.opt.on span { opacity: 1; font-weight: 400; text-shadow: 0 0 8px rgb(255 255 255 / .8); }
+.opt.on i { box-shadow: 0 0 0 2px #fff, 0 0 12px #fff; }
+
+/* upright phones: values sit under the label, fonts track the width */
+.tall .row b { font-size: 5vw; }
+.tall .row.on b { font-size: 5.4vw; }
+.tall .row small { font-size: 3.4vw; }
+.tall .row .val { position: static; display: block; font-size: 3.8vw; margin-top: 2px; }
+.tall #pick { left: 58vw; }
+.tall .opt { font-size: 4.4vw; height: 7vw; margin-top: -3.5vw; left: 4vw; gap: 3vw; }
+.tall .opt i { width: 5.5vw; height: 5.5vw; }
+.picking #clock { opacity: 0; }
+.tall.picking .row small { opacity: 0; }
