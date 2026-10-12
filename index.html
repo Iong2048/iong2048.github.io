@@ -11,12 +11,20 @@
   <meta name="theme-color" content="#200d2a">
   <link rel="icon" href="icon.svg">
   <link rel="apple-touch-icon" href="icon-180.png">
-  <title>Portfolio</title>
+  <title>Miguel Rivera</title>
+  <meta name="description" content="Miguel Rivera: CS student at Chico State (Dec 2026) focused on applied AI/ML test and evaluation. Research, projects and experience.">
+  <!-- link previews on LinkedIn, Slack, iMessage -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mi6uelange7.github.io/">
+  <meta property="og:title" content="Miguel Rivera">
+  <meta property="og:description" content="ML test &amp; evaluation: making sure AI can be trusted. CS @ Chico State, graduating Dec 2026.">
+  <meta property="og:image" content="https://mi6uelange7.github.io/og.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap">
   <!-- bump ?v= on every deploy so phones never mix a new page with cached old scripts -->
-  <link rel="stylesheet" href="style.css?v=12">
-  <script type="module" src="main.js?v=12"></script>
+  <link rel="stylesheet" href="style.css?v=22">
+  <script type="module" src="main.js?v=22"></script>
 </head>
 <body class="booting">
   <div id="bg"><canvas id="wave"></canvas></div>
@@ -29,7 +37,8 @@
   <div id="clock" aria-hidden="true"></div>
   <div id="logo" aria-hidden="true"><b></b><small></small></div>
   <div id="notice"><b></b><p></p></div>
+  <div id="skip" aria-hidden="true">Press any key or tap to skip</div>
   <!-- Plain copy of the content for screen readers and search engines, filled by main.js -->
-  <main id="plain" class="sr-only"></main>
+  <main id="plain" class="sr-only" tabindex="-1"></main>
 </body>
 </html>

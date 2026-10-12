@@ -15,6 +15,20 @@ const ICONS = {
   mic: 'M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72z',
   star: 'M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z',
   code: 'M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z',
+  wave: 'M7 18h2V6H7zm4 4h2V2h-2zm-8-8h2v-4H3zm12 4h2V6h-2zm4-8v4h2v-4z',
+  group: 'M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z',
+  chat: 'M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z',
+  lan: 'M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3z',
+  chart: 'M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z',
+  briefcase: 'M10 2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4V4a2 2 0 0 1 2-2zm4 4V4h-4v2z',
+  desktop: 'M20 18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2H0v2h24v-2zM4 6h16v10H4z',
+  wrench: 'M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z',
+  terminal: 'M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 14H4V8h16zM6.5 10.5 9 13l-2.5 2.5 1 1L11 13 7.5 9.5zM12 16h5v-1.5h-5z',
+  chip: 'M15 9H9v6h6zm-2 4h-2v-2h2zm8-2V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7a2 2 0 0 0-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2zm-4 6H7V7h10z',
+  globe: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.95a15.7 15.7 0 0 0-1.38-3.56A8 8 0 0 1 18.9 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14a8.2 8.2 0 0 1 0-4h3.38a16.5 16.5 0 0 0 0 4zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A8 8 0 0 1 5.08 16zm2.95-8H5.08a8 8 0 0 1 4.33-3.56A15.7 15.7 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66a14.7 14.7 0 0 1 0-4h4.68a14.7 14.7 0 0 1 0 4zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8 8 0 0 1-4.33 3.56zM16.36 14a16.5 16.5 0 0 0 0-4h3.38a8.2 8.2 0 0 1 0 4z',
+  flag: 'M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z',
+  send: 'M2.01 21 23 12 2.01 3 2 10l15 2-15 2z',
+  link: 'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 0-10z',
 };
 const svg = (it) => `<svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="${ICONS[it.icon]}"/></svg>`;
 
@@ -47,7 +61,7 @@ const $ = (s) => document.querySelector(s);
 const xmb = $('#xmb'), sub = $('#sub'), pick = $('#pick'), arrow = $('#arrow');
 const el = (cls, html, parent = xmb) => { const e = document.createElement('div'); e.className = cls; e.innerHTML = html; parent.append(e); return e; };
 // level 0 = XMB, 1 = an item's options list, 2 = the picker strip for one option
-const state = { cat: 1, item: cats.map(() => 0), level: 0, row: 0, opt: 0 };
+const state = { cat: 1, item: cats.map(() => 0), level: 0, row: 0, opt: 0, glance: false };
 const cur = () => cats[state.cat].items[state.item[state.cat]];
 const rows = () => cur().rows || [];
 let optEls = [];
@@ -66,10 +80,20 @@ cats.forEach((c, ci) => {
 arrow.onclick = () => back();
 
 const esc = (t) => String(t).replace(/[&<>"]/g, (ch) => `&#${ch.charCodeAt(0)};`);
-const link = (href, text) => (href ? `<a href="${href}">${text}</a>` : text);
-$('#plain').innerHTML = categories.map((c) => `<section><h2>${c.title}</h2>${c.items.map((it) =>
-  `<article><h3>${link(it.href, it.title)}</h3><p>${it.sub || ''}</p><ul>${(it.rows || []).map((r) =>
-    `<li>${link(r.href, r.title)}${r.value ? `: ${r.value}` : ''}${r.desc ? `. ${r.desc}` : ''}</li>`).join('')}</ul></article>`).join('')}</section>`).join('');
+const link = (href, text) => (href ? `<a href="${href}"${href.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${text}</a>` : text);
+// "At a Glance": all the content as one plain page. It's also the copy screen readers and
+// search engines read, and it opens as a readable overlay for anyone who doesn't want to explore.
+const plain = $('#plain');
+const rowsHTML = (rs) => (rs.every((r) => !r.value && !r.desc && !r.href)
+  ? `<p>${rs.map((r) => esc(r.title)).join(' · ')}</p>` // skill lists read best inline
+  : `<ul>${rs.map((r) => `<li><b>${link(r.href, esc(r.title))}</b>${r.value ? ` <span>${esc(r.value)}</span>` : ''}${r.desc ? `<br>${esc(r.desc)}` : ''}</li>`).join('')}</ul>`);
+plain.innerHTML = `<button id="glance-close" aria-label="Close">✕</button>
+  <header><h1>${esc(site.name)}</h1><p>${esc(site.tagline)}</p><p class="sub">${esc(site.location)}</p>
+  <p class="links">${site.links.map(([t, h]) => link(h, t)).join('')}</p>
+  <ul class="hl">${site.highlights.map(([t, d]) => `<li><b>${esc(t)}</b>${esc(d)}</li>`).join('')}</ul></header>`
+  + categories.map((c) => `<section><h2>${c.title}</h2>${c.items.filter((it) => !it.glance).map((it) =>
+    `<article><h3>${link(it.href, esc(it.title))}</h3>${it.sub ? `<p class="sub">${esc(it.sub)}</p>` : ''}${it.rows ? rowsHTML(it.rows) : ''}</article>`).join('')}</section>`).join('');
+$('#glance-close').onclick = () => back();
 
 // ---- layout ----
 const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
@@ -122,13 +146,15 @@ function render() {
   sub.style.setProperty('--lx', `${(F.label - F.dot) * W}px`);
   sub.style.setProperty('--vx', `${(F.val - F.dot) * W}px`);
   sub.style.setProperty('--dw', `${(F.val - F.label) * W - 24}px`);
-  rows().forEach((r, ri) => {
-    if (!r.el) return;
+  const rs = rows().filter((r) => r.el);
+  rs.forEach((r, ri) => { r.el.classList.toggle('on', ri === state.row); r.el.querySelector('.val').textContent = val(r); });
+  // a long description makes the selected row tall, so the rows below start under it
+  const selH = rs[state.row] ? rs[state.row].el.offsetHeight / H : 0;
+  const down = Math.max(F.down, selH + F.rstep * 0.6);
+  rs.forEach((r, ri) => {
     const k = ri - state.row;
-    const y = F.hor + (k === 0 ? 0 : k > 0 ? F.down + (k - 1) * F.rstep : -F.up + (k + 1) * F.rstep);
-    r.el.classList.toggle('on', k === 0);
-    r.el.querySelector('.val').textContent = val(r);
-    pos(r.el, F.dot * W, y * H, 1, 1);
+    const y = F.hor + (k === 0 ? 0 : k > 0 ? down + (k - 1) * F.rstep : -F.up + (k + 1) * F.rstep);
+    pos(r.el, F.dot * W, y * H, 1, k < -2 ? 0 : k < 0 ? 0.6 : 1); // at most two faded rows above
   });
   pick.classList.toggle('open', state.level === 2);
   optEls.forEach((e, oi) => {
@@ -140,8 +166,10 @@ function render() {
 // ---- navigation ----
 const booting = () => document.body.classList.contains('booting');
 const go = (href) => (href.startsWith('mailto:') ? (location.href = href) : open(href, '_blank', 'noopener'));
+function openGlance() { state.glance = true; plain.classList.add('glance'); plain.scrollTop = 0; plain.focus(); }
 function enter() { // level 0 -> 1
   const it = cur();
+  if (it.glance) return openGlance();
   if (!it.rows) return it.href && go(it.href);
   state.level = 1; state.row = 0; sub.innerHTML = '';
   it.rows.forEach((r, ri) => {
@@ -160,7 +188,7 @@ function openPicker(r) { // level 1 -> 2
   render();
 }
 function activate() {
-  if (booting()) return;
+  if (booting() || state.glance) return;
   if (state.level === 0) return enter();
   const r = rows()[state.row];
   if (state.level === 1) return r.options ? openPicker(r) : r.href && go(r.href);
@@ -168,11 +196,12 @@ function activate() {
   state.level = 1; render();
 }
 function back() {
+  if (state.glance) { state.glance = false; return plain.classList.remove('glance'); }
   if (state.level === 2) rows()[state.row].apply?.(val(rows()[state.row])); // undo the preview
   if (state.level > 0) { state.level--; render(); }
 }
 function move(dc, di) {
-  if (booting()) return;
+  if (booting() || state.glance) return;
   const snap = () => `${state.cat}:${state.item[state.cat]}:${state.level}:${state.row}:${state.opt}`, before = snap();
   if (state.level === 0) {
     state.cat = clamp(state.cat + dc, 0, cats.length - 1);
@@ -190,6 +219,7 @@ function move(dc, di) {
 }
 
 addEventListener('keydown', (e) => {
+  if (state.glance) return (e.key === 'Escape' || e.key === 'Backspace') && back(); // let arrows scroll the page
   const k = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
   if (k) { e.preventDefault(); move(...k); }
   else if (e.key === 'Enter' || e.key === ' ') activate();
@@ -199,6 +229,7 @@ addEventListener('keydown', (e) => {
 // Wheel over the category row scrolls categories; anywhere else scrolls items.
 let acc = 0, last = 0;
 addEventListener('wheel', (e) => {
+  if (state.glance) return; // the glance page scrolls natively
   e.preventDefault();
   const sideways = Math.abs(e.deltaX) > Math.abs(e.deltaY);
   acc += sideways ? e.deltaX : e.deltaY;
@@ -216,7 +247,7 @@ addEventListener('pointerup', (e) => {
   // (iPhone Safari has no page fullscreen; Add to Home Screen covers it.)
   if (e.pointerType === 'touch' && innerWidth > innerHeight && !document.fullscreenElement)
     document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).catch(() => {});
-  if (!p0) return;
+  if (!p0 || state.glance) { p0 = null; return; }
   const dx = e.clientX - p0.clientX, dy = e.clientY - p0.clientY; p0 = null;
   if (Math.max(Math.abs(dx), Math.abs(dy)) < 40) return;
   Math.abs(dx) > Math.abs(dy) ? move(-Math.sign(dx), 0) : move(0, -Math.sign(dy));
@@ -305,12 +336,12 @@ async function boot() {
   const t0 = performance.now(), stop = new AbortController();
   const skip = (e) => { if (performance.now() - t0 < 600 || e.metaKey || e.ctrlKey || e.key === 'Meta' || e.key === 'Control') return; skipped = true; wake?.(); };
   for (const ev of ['keydown', 'pointerdown']) addEventListener(ev, skip, { signal: stop.signal });
+  const seen = store('seen'); store('seen', 1);
   await sleep(150); $('#black').classList.add('gone');
-  await sleep(1600); show('#logo', true);
-  await sleep(2800); show('#logo', false);
-  await sleep(1000); show('#notice', true);
-  await sleep(4500); show('#notice', false);
-  await sleep(800);
+  await sleep(900); show('#logo', true);
+  await sleep(2000); show('#logo', false);
+  if (!seen) { await sleep(700); show('#notice', true); await sleep(3200); show('#notice', false); }
+  await sleep(600);
   stop.abort(); show('#logo', false); show('#notice', false);
   $('#black').classList.add('gone'); document.body.classList.remove('booting');
 }
