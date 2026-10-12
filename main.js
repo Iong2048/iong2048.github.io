@@ -76,17 +76,18 @@ const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
 const L = {};
 function render() {
   const W = innerWidth, H = innerHeight;
-  const psp = W < 700 || H < 500, tall = psp && H > W;
-  // Proportions measured off real PS3 (1080p) and PSP (480x272) screens. s = 1 at 1080p.
-  // Upright phones: one continuous column on the left third, the bar crossing it,
-  // evenly spaced same-size icons, selection marked by glow rather than size.
-  const s = tall ? W / 820 : psp ? Math.min(H / 782, W / 700) : clamp(Math.min(H / 1080, W / 1500), 0.45, 1.6);
-  const y0 = H * (tall ? 0.42 : psp ? 0.25 : 0.267);
-  const ySel = tall ? y0 + H * 0.105 : H * (psp ? 0.496 : 0.466);
+  // XMB Reimagined: one design that scales down; only the orientation changes the layout.
+  // Landscape: PS3 proportions measured off a real 1080p screen, scaled by height (s = 1 at 1080p).
+  // Portrait: the same pieces as one column on the left third with the bar crossing it,
+  // same-size evenly spaced icons, selection marked by glow rather than size.
+  const tall = H > W;
+  const s = tall ? W / 820 : clamp(Math.min(H / 1080, W / 1500), 0.55, 1.6);
+  const y0 = H * (tall ? 0.42 : 0.267);
+  const ySel = tall ? y0 + H * 0.105 : H * 0.466;
   const step = tall ? H * 0.09 : 80 * s, first = tall ? H * 0.025 : 177 * s, above = tall ? H * 0.092 : 170 * s;
-  Object.assign(L, { s, psp, y0, x0: W * (tall ? 0.33 : psp ? 0.22 : 0.294), gap: tall ? W * 0.25 : Math.max(W * (psp ? 0.177 : 0.107), 135 * s) });
+  Object.assign(L, { s, y0, x0: W * (tall ? 0.33 : 0.294), gap: tall ? W * 0.25 : Math.max(W * 0.107, 135 * s) });
   const deep = state.level > 0;
-  document.body.classList.toggle('psp', psp); document.body.classList.toggle('tall', tall);
+  document.body.classList.toggle('tall', tall);
   document.body.classList.toggle('deep', deep); document.body.classList.toggle('picking', state.level === 2);
   root.setProperty('--s', s);
   const pos = (e, x, y, sc, op) => { e.style.transform = `translate(${x}px,${y}px) scale(${sc})`; e.style.opacity = op; };
@@ -213,7 +214,7 @@ addEventListener('pointerdown', (e) => { p0 = e; });
 addEventListener('pointerup', (e) => {
   // Android: a tap in landscape goes real fullscreen so the browser bars stop popping up.
   // (iPhone Safari has no page fullscreen; Add to Home Screen covers it.)
-  if (e.pointerType === 'touch' && L.psp && innerWidth > innerHeight && !document.fullscreenElement)
+  if (e.pointerType === 'touch' && innerWidth > innerHeight && !document.fullscreenElement)
     document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).catch(() => {});
   if (!p0) return;
   const dx = e.clientX - p0.clientX, dy = e.clientY - p0.clientY; p0 = null;
@@ -223,12 +224,11 @@ addEventListener('pointerup', (e) => {
 addEventListener('resize', render);
 render();
 
-// ---- clock + time-of-day dimming ----
+// ---- clock ----
 function tick(fmt = store('clock')) {
   const d = new Date(), p = (n) => String(n).padStart(2, '0'), h = d.getHours();
   const t = fmt === '12-Hour' ? `${h % 12 || 12}:${p(d.getMinutes())} ${h < 12 ? 'AM' : 'PM'}` : `${p(h)}:${p(d.getMinutes())}`;
   $('#clock').textContent = `${d.getDate()}/${d.getMonth() + 1}  ${t}`;
-  root.setProperty('--night', h < 6 ? 0.2 : h < 9 ? 0.08 : h < 17 ? 0 : h < 20 ? 0.06 : 0.15);
 }
 tick(); setInterval(tick, 10000);
 
@@ -238,15 +238,13 @@ const FRAG = `precision highp float;
 uniform vec2 R; uniform float T, Y, V;
 float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float center(float x, float ph) {
-  // upright phones (V=1) run the ribbon top to bottom; across the narrow axis the bends
-  // need to be much bigger to sweep like curtains instead of reading as a straight beam
-  return Y - .05 * x + (1. + 2.4 * V) * (.055 * sin(x * 1.6 + T * .18 + ph) + .02 * sin(x * 3.1 - T * .27 + ph * 1.7));
+  return Y - .05 * x + .055 * sin(x * 1.6 + T * .18 + ph) + .02 * sin(x * 3.1 - T * .27 + ph * 1.7);
 }
 // One silk ribbon: strands spread across a width that twists through zero,
 // so it reads as a see-through sheet that pinches into a bright edge.
 float ribbon(vec2 p, float ph) {
   float c = center(p.x, ph);
-  float w = (.11 + .13 * V) * sin(p.x * 1.15 - T * .13 + ph * 2.3);
+  float w = .11 * sin(p.x * 1.15 - T * .13 + ph * 2.3);
   float lines = 0.;
   for (int i = 0; i < 9; i++) {
     float fi = float(i);
@@ -257,19 +255,21 @@ float ribbon(vec2 p, float ph) {
   float dc = abs(p.y - c), hw = abs(w) * .5;
   float fill = smoothstep(hw + .02, hw - .01, dc) * (.07 + .003 / (abs(w) + .015));
   float glow = exp(-dc * dc / (hw * hw + .0015)) * .07;
-  return lines + (fill + glow) * (1. + .5 * V);   // upright: a bit more sheet, like the mockup's curtains
+  return lines + fill + glow;
 }
 void main() {
   vec2 p = gl_FragCoord.xy / R.y;
-  if (V > .5) p = vec2((R.y - gl_FragCoord.y) / R.x, gl_FragCoord.x / R.x);
-  float c = ribbon(p, 0.) + (.5 + .2 * V) * ribbon(p, 2.4);
+  // upright: the exact same ribbon rotated 90°, measured so the screen's length spans the
+  // same 1.78 units a 16:9 landscape screen does; same curves and twists, nothing squeezed
+  if (V > .5) p = vec2(R.y - gl_FragCoord.y, gl_FragCoord.x) * 1.78 / R.y;
+  float c = ribbon(p, 0.) + .5 * ribbon(p, 2.4);
   vec2 g = (p + vec2(T * .006, 0.)) * 90.;
   vec2 id = floor(g), f = fract(g) - .5;
   float r = h(id);
   vec2 o = vec2(h(id + 3.1), h(id + 7.7)) - .5;
   float sp = smoothstep(.12, 0., length(f - o * .7)) * step(.92, r) * (.5 + .5 * sin(T * 3. + r * 60.));
   c += sp * exp(-abs(p.y - center(p.x, 0.)) * 9.) * .7;
-  c = min(c * (1. - .35 * V), 1.);
+  c = min(c, 1.);
   gl_FragColor = vec4(vec3(c), c);
 }`;
 const cv = $('#wave'), gl = cv.getContext('webgl');
@@ -286,7 +286,7 @@ if (gl) {
     const frame = (t) => {
     const dpr = Math.min(devicePixelRatio, 1.5), w = innerWidth * dpr | 0, h = innerHeight * dpr | 0;
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
-    gl.uniform2f(uR, w, h); gl.uniform1f(uT, still ? 20 : t / 1000); const tall = document.body.classList.contains('tall'); gl.uniform1f(uY, tall ? .56 : .5); gl.uniform1f(uV, tall ? 1 : 0);
+    gl.uniform2f(uR, w, h); gl.uniform1f(uT, still ? 20 : t / 1000); const tall = document.body.classList.contains('tall'); gl.uniform1f(uY, tall ? .46 : .5); gl.uniform1f(uV, tall ? 1 : 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     if (!still) requestAnimationFrame(frame);
   };

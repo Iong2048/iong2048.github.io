@@ -1,5 +1,7 @@
-:root { --c1: #a98ad3; --c2: #4e3480; --night: 0; --s: 1; }
+:root { --c1: #a98ad3; --c2: #4e3480; --s: 1; }
 * { box-sizing: border-box; margin: 0; }
+/* no grey tap box on phones (read as a border around the glowing icons) */
+* { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
 html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 body {
   font-family: 'Noto Sans', system-ui, sans-serif; font-weight: 300; color: #fff;
@@ -13,7 +15,6 @@ body {
     linear-gradient(165deg, var(--c1), var(--c2));
   transition: background .6s;
 }
-#bg::after { content: ''; position: fixed; inset: 0; background: #000; opacity: var(--night); }
 #wave { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 .cat, .item {
@@ -28,12 +29,12 @@ body {
 .item > div { opacity: 0; transition: opacity .28s; }
 .item.on > div { opacity: 1; }
 .cat svg, .item svg {
-  display: block; flex: none; width: var(--i); height: var(--i); fill: rgb(255 255 255 / .92);
+  display: block; flex: none; width: var(--i); height: var(--i); fill: rgb(255 255 255 / .92); overflow: visible;
   filter: drop-shadow(0 0 calc(5px * var(--s)) rgb(255 255 255 / .45)) drop-shadow(0 1px 2px rgb(0 0 0 / .25));
 }
 .cat span {
   position: absolute; top: 108%; left: 50%; transform: translateX(-50%);
-  font-size: calc(22px * var(--s)); white-space: nowrap; opacity: 0; transition: opacity .28s;
+  font-size: max(12px, calc(22px * var(--s))); white-space: nowrap; opacity: 0; transition: opacity .28s;
   text-shadow: 0 0 6px rgb(255 255 255 / .5);
 }
 .cat.on span { opacity: 1; }
@@ -41,25 +42,19 @@ body {
   display: block; font-weight: 400; font-size: calc(34px * var(--s)); white-space: nowrap;
   text-shadow: 0 0 8px rgb(255 255 255 / .35), 0 1px 2px rgb(0 0 0 / .3);
 }
-.item small { display: block; font-size: calc(19px * var(--s)); opacity: 0; transition: opacity .28s; white-space: nowrap; }
+.item small { display: block; font-size: max(12px, calc(19px * var(--s))); opacity: 0; transition: opacity .28s; white-space: nowrap; }
 .item.on small { opacity: .85; }
 .item.on b { text-shadow: 0 0 10px rgb(255 255 255 / .8), 0 1px 2px rgb(0 0 0 / .3); }
 
 #clock {
   /* flush with the right edge, like the PS3 status bar */
-  position: fixed; top: 7vh; right: 0; width: 31vw; padding-right: 6.5vw;
-  font-size: calc(30px * var(--s)); line-height: calc(56px * var(--s)); text-align: right; letter-spacing: .03em;
+  position: fixed; top: 7vh; right: 0; width: 31vw; padding-right: max(6.5vw, env(safe-area-inset-right));
+  font-size: max(13px, calc(30px * var(--s))); line-height: max(26px, calc(56px * var(--s))); text-align: right; letter-spacing: .03em;
   border: 1px solid rgb(255 255 255 / .55); border-right: 0; border-radius: 3px 0 0 3px;
   background: linear-gradient(rgb(255 255 255 / .18), rgb(255 255 255 / .04));
 }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-
-/* PSP-style status on phones: plain text, no box (the phone shows its own battery) */
-.psp #clock { border: 0; background: none; width: auto; padding: 0; line-height: normal; font-size: 16px; top: max(12px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); }
-.psp .item small { display: none; }
-.psp .item b, .psp .cat span, .psp #clock { text-shadow: 0 0 2px rgb(0 0 0 / .7), 0 1px 3px rgb(0 0 0 / .6); }
-.psp #bg { background: radial-gradient(ellipse 120% 80% at 50% 20%, transparent 40%, rgb(0 0 0 / .25)), linear-gradient(170deg, var(--c1), var(--c2)); filter: saturate(.75); }
 
 /* ---- boot ---- */
 #black { position: fixed; inset: 0; background: #000; transition: opacity 2.2s ease; pointer-events: none; }
@@ -80,9 +75,6 @@ body {
   font-size: clamp(13px, 1.45vw, 26px); line-height: 1.5; text-shadow: 0 1px 3px rgb(0 0 0 / .5);
 }
 #notice b { font-weight: 400; display: block; }
-.psp #logo { right: 0; left: 0; }
-.psp #logo b { font-size: 8vw; }
-.psp #notice { left: 8%; right: 8%; top: 40%; }
 
 /* ---- upright phones: one clean column, all items labeled, glow marks the selection ---- */
 .tall .item > div { width: calc(67vw - 100px * var(--s) - 16px); }
@@ -97,6 +89,9 @@ body {
   filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px rgb(170 200 255 / .9)) drop-shadow(0 2px 3px rgb(0 0 0 / .4));
 }
 .tall #logo, .tall #notice { top: 42%; }
+.tall #logo { left: 0; right: 0; }
+.tall #logo b { font-size: 8vw; }
+.tall #notice { left: 8%; right: 8%; }
 
 /* ---- options list (PS3 Theme Settings style) ---- */
 .deep .item > div, .deep .cat span { opacity: 0 !important; }
@@ -117,7 +112,7 @@ body {
   text-shadow: 0 1px 2px rgb(0 0 0 / .3); transition: opacity .2s;
 }
 .row.on b { font-weight: 400; font-size: calc(36px * var(--s)); opacity: 1; text-shadow: 0 0 10px rgb(255 255 255 / .8), 0 1px 2px rgb(0 0 0 / .3); }
-.row small { display: none; max-width: var(--dw); font-size: calc(19px * var(--s)); line-height: 1.35; opacity: .9; }
+.row small { display: none; max-width: var(--dw); font-size: max(12px, calc(19px * var(--s))); line-height: 1.35; opacity: .9; }
 .row.on small { display: block; }
 .row .val {
   position: absolute; left: var(--vx); top: calc(10px * var(--s)); font-style: normal; white-space: nowrap;
