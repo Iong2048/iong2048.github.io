@@ -139,8 +139,8 @@ function render() {
   const tall = H > W;
   const s = tall ? W / 820 : clamp(Math.min(H / 1080, W / 1500), 0.55, 1.6);
   const y0 = H * (tall ? 0.42 : 0.267);
-  const ySel = tall ? y0 + H * 0.105 : H * 0.466;
-  const step = tall ? H * 0.09 : 80 * s, first = tall ? H * 0.025 : 177 * s, above = tall ? H * 0.092 : 170 * s;
+  const ySel = tall ? y0 + H * 0.14 : H * 0.466;
+  const step = tall ? H * 0.09 : 80 * s, first = tall ? H * 0.025 : 177 * s, above = tall ? H * 0.125 : 170 * s;
   Object.assign(L, { s, y0, x0: W * (tall ? 0.33 : 0.294), gap: tall ? W * 0.25 : Math.max(W * 0.107, 135 * s) });
   const deep = state.level > 0;
   document.body.classList.toggle('tall', tall);
@@ -198,7 +198,7 @@ function render() {
 // ---- navigation ----
 const booting = () => document.body.classList.contains('booting');
 const go = (href) => (href.startsWith('mailto:') ? (location.href = href) : open(href, '_blank', 'noopener'));
-function openGlance() { state.glance = true; plain.classList.add('glance'); plain.scrollTop = 0; plain.focus(); }
+function openGlance() { state.glance = true; plain.classList.add('glance'); document.body.classList.add('reading'); plain.scrollTop = 0; plain.focus(); }
 function enter() { // level 0 -> 1
   const it = cur();
   if (it.glance) return openGlance();
@@ -229,7 +229,7 @@ function activate() {
   state.level = 1; render();
 }
 function back() {
-  if (state.glance) { state.glance = false; return plain.classList.remove('glance'); }
+  if (state.glance) { state.glance = false; document.body.classList.remove('reading'); return plain.classList.remove('glance'); }
   if (state.level === 2) rows()[state.row].apply?.(val(rows()[state.row])); // undo the preview
   if (state.level > 0) { state.level--; render(); }
 }

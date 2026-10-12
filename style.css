@@ -7,6 +7,9 @@ body {
   font-family: 'Noto Sans', system-ui, sans-serif; font-weight: 300; color: #fff;
   background: var(--c2); touch-action: none; user-select: none;
 }
+/* touch-action on an ancestor caps every descendant, so the glance page can only scroll
+   on phones if body lets go while it's open */
+body.reading { touch-action: pan-y; }
 
 #bg {
   position: fixed; inset: 0;
